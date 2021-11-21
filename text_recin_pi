@@ -1,0 +1,29 @@
+import os
+import pytesseract
+from PIL import Image
+from gtts import gTTS
+import pygame
+from pygame import mixer
+
+filename = "download.png"
+text = pytesseract.image_to_string(Image.open(filename))
+print(text)
+
+
+pygame.init()
+pygame.mixer.init()
+fileread = open("download.png", "r")
+language = 'en'
+speech = gTTS(text)
+speech.save("/home/pi/Desktop/OCR/sounds/test.MP3")
+path = "/home/pi/Desktop/OCR/sounds/"
+sound_files = ["test.MP3"]
+mixer.init()
+speaker_volume = 0.5
+pygame.mixer.music.set_volume(speaker_volume)
+
+for sound_file in sound_files:
+        pygame.mixer.music.load(path + sound_file)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+                continue
